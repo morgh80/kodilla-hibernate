@@ -14,6 +14,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TaskDaoTestSuite {
+
 	@Autowired
 	private TaskDao taskDao;
 	private static final String DESCRIPTION = "Test: Learn Hibernate";
@@ -48,7 +49,7 @@ public class TaskDaoTestSuite {
 		//Then
 		Assert.assertEquals(1, readTasks.size());
 
-//		CleanUp
+		//CleanUp
 		int id = readTasks.get(0).getId();
 		taskDao.delete(id);
 	}
