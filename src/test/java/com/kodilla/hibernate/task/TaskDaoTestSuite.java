@@ -1,7 +1,6 @@
-package com.kodilla.hibernate.dao;
+package com.kodilla.hibernate.task;
 
-import com.kodilla.hibernate.dao.task.Task;
-import com.kodilla.hibernate.dao.task.dao.TaskDao;
+import com.kodilla.hibernate.task.dao.TaskDao;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
