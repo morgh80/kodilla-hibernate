@@ -36,7 +36,7 @@ public class Item { //pozycja faktury
         return price;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL) // Nie rozumiem dlaczego tutaj muszę dać CascadeType.ALL (inaczej wywala mi błąd), a w  getInvoice() już nie muszę
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_ID")
     public Product getProduct() {
         return product;
@@ -52,7 +52,7 @@ public class Item { //pozycja faktury
         return value;
     }
 
-    @ManyToOne// j.w.
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "INVOICE_ID")
     public Invoice getInvoice() {
         return invoice;
