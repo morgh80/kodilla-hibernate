@@ -36,7 +36,7 @@ public class Product {
             targetEntity = Item.class,
             mappedBy = "product",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     public List<Item> getItems() {
         return items;
