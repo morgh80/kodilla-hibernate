@@ -3,6 +3,8 @@ package com.kodilla.hibernate.manytomany;
 import com.kodilla.hibernate.manytomany.Company;
 import com.kodilla.hibernate.manytomany.Employee;
 import com.kodilla.hibernate.manytomany.dao.CompanyDao;
+import com.kodilla.hibernate.manytomany.dao.EmployeeDao;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,11 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CompanyDaoTestSuite {
     @Autowired
     CompanyDao companyDao;
+
+    @Autowired
+    EmployeeDao employeeDao;
+
+    @After
+    public void cleanDatabase() {
+        //cleanUp
+        companyDao.deleteAll();
+        employeeDao.deleteAll();
+    }
 
     @Test
     public void testSaveManyToMany() {
@@ -61,5 +75,45 @@ public class CompanyDaoTestSuite {
             //do nothing
         }
     }
+
+    @Test
+    public void isSearchingByLastName() {
+        //Given
+        Employee johnSmith = new Employee("John", "Smith");
+        Company softwareMachine = new Company("Software Machine");
+        softwareMachine.getEmployees().add(johnSmith);
+        johnSmith.getCompanies().add(softwareMachine);
+
+        //When
+        employeeDao.save(johnSmith);
+        List<Employee> searchBySmith = employeeDao.SearchByLastName("Smith");
+
+        //Then
+        Assert.assertEquals(1, searchBySmith.size());
+    }
+
+    @Test
+    public void isRetrievingCompaniesWithNameStartingWith() {
+        //Given
+        Employee johnSmith = new Employee("John", "Smith");
+        Company softwareMachine = new Company("Software Machine");
+        softwareMachine.getEmployees().add(johnSmith);
+        johnSmith.getCompanies().add(softwareMachine);
+
+        //When
+        companyDao.save(softwareMachine);
+        List<Company> retrievedCompaniesStartingWith = companyDao.retrieveCompaniesWithNameStartingWith("Soft");
+
+
+        //Then
+        Assert.assertEquals(1, retrievedCompaniesStartingWith.size());
+
+
+    }
+
+
 }
+
+
+
 
