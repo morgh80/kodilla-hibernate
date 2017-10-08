@@ -82,4 +82,6 @@ public class Item { //pozycja faktury
         this.invoice = invoice;
     }
 
+
+
 }
