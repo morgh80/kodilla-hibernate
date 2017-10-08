@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedQuery(
-        name = "Employee.SearchByLastName",
+        name = "Employee.searchByLastName",
         query = "FROM Employee WHERE lastname = :LASTNAME"
 )
 

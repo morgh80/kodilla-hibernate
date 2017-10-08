@@ -86,10 +86,10 @@ public class CompanyDaoTestSuite {
 
         //When
         employeeDao.save(johnSmith);
-        List<Employee> searchBySmith = employeeDao.SearchByLastName("Smith");
+        List<Employee> searchBySmith = employeeDao.searchByLastName("Smith");
 
         //Then
-        Assert.assertEquals(1, searchBySmith.size());
+        Assert.assertEquals("Smith", searchBySmith.get(0).getLastname());
     }
 
     @Test
@@ -104,11 +104,8 @@ public class CompanyDaoTestSuite {
         companyDao.save(softwareMachine);
         List<Company> retrievedCompaniesStartingWith = companyDao.retrieveCompaniesWithNameStartingWith("Soft");
 
-
         //Then
-        Assert.assertEquals(1, retrievedCompaniesStartingWith.size());
-
-
+        Assert.assertEquals("Software Machine", retrievedCompaniesStartingWith.get(0).getName());
     }
 
 

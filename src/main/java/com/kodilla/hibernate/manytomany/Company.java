@@ -7,12 +7,11 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@NamedNativeQuery(
+@NamedQuery(
         name = "Company.retrieveCompaniesWithNameStartingWith",
-        query = "SELECT * FROM COMPANIES" +
-                " WHERE COMPANY_NAME LIKE :NAME_LETTERS '%'",
-        resultClass = Company.class
+        query = "FROM Company WHERE name LIKE CONCAT(:NAME_LETTERS,'%')"
 )
+
 
 @Entity
 @Table(name = "COMPANIES")
