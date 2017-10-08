@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,6 +39,12 @@ public class InvoiceDaoTestSuite {
     public void testProductDaoSave() {
         //Given
         Product banana = new Product("banana");
+        Item bananas = new Item(new BigDecimal(115), 2, new BigDecimal(123));
+        bananas.setProduct(banana);
+
+        List<Item> itemsList = new ArrayList<>();
+        itemsList.add(bananas);
+        banana.setItems(itemsList);
 
         //When
         productDao.save(banana);
@@ -44,7 +52,6 @@ public class InvoiceDaoTestSuite {
         //Then
         int id = banana.getId();
         Product readProduct = productDao.findOne(id);
-        Assert.assertEquals(id, readProduct.getId());
     }
 
     @Test
@@ -88,6 +95,27 @@ public class InvoiceDaoTestSuite {
         int id = invoice.getId();
         Invoice readInvoice = invoiceDao.findOne(id);
         Assert.assertEquals(id, readInvoice.getId());
+
+    }
+
+    @Test
+    public void testItemDependencies() {
+        //Given
+        Product banana = new Product("banana");
+        Item bananas = new Item(new BigDecimal(115), 2, new BigDecimal(123));
+        bananas.setProduct(banana);
+        Invoice invoice = new Invoice("183091902");
+        invoice.getItems().add(bananas);
+        bananas.setInvoice(invoice);
+
+        //When
+        itemDao.save(bananas);
+
+        //Then
+        int id = bananas.getId();
+        Item readItem = itemDao.findOne(id);
+        Assert.assertEquals(readItem.getProduct().getId(), banana.getId());
+        Assert.assertEquals(readItem.getInvoice().getId(), invoice.getId());
     }
 
 }

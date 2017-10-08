@@ -36,7 +36,7 @@ public class Product {
             targetEntity = Item.class,
             mappedBy = "product",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     public List<Item> getItems() {
         return items;
@@ -52,5 +52,25 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (id != product.id) return false;
+        if (!name.equals(product.name)) return false;
+        return items.equals(product.items);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + items.hashCode();
+        return result;
     }
 }
