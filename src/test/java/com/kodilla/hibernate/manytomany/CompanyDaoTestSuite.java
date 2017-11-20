@@ -109,6 +109,39 @@ public class CompanyDaoTestSuite {
     }
 
 
+    @Test
+    public void isRetrievingCompaniesContaining() {
+        //Given
+        Employee johnSmith = new Employee("John", "Smith");
+        Company softwareMachine = new Company("Software Machine");
+        softwareMachine.getEmployees().add(johnSmith);
+        johnSmith.getCompanies().add(softwareMachine);
+
+        //When
+        companyDao.save(softwareMachine);
+        List<Company> retrievedCompaniesStartingWith = companyDao.retrieveCompaniesContaining("oft");
+
+        //Then
+        Assert.assertEquals("Software Machine", retrievedCompaniesStartingWith.get(0).getName());
+    }
+
+    @Test
+    public void isRetrievingEmployeeContaining(){
+        //Given
+        Employee johnSmith = new Employee("John", "Smith");
+        Company softwareMachine = new Company("Software Machine");
+        softwareMachine.getEmployees().add(johnSmith);
+        johnSmith.getCompanies().add(softwareMachine);
+
+        //When
+        employeeDao.save(johnSmith);
+        List<Employee> searchBySmith = employeeDao.retrieveEmployeeContaining("mith");
+
+        //Then
+        Assert.assertEquals("Smith", searchBySmith.get(0).getLastname());
+
+    }
+
 }
 
 

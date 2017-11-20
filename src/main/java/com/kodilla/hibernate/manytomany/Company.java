@@ -7,11 +7,15 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@NamedQuery(
-        name = "Company.retrieveCompaniesWithNameStartingWith",
-        query = "FROM Company WHERE name LIKE CONCAT(:NAME_LETTERS,'%')"
-)
-
+@NamedQueries({
+        @NamedQuery(
+                name = "Company.retrieveCompaniesWithNameStartingWith",
+                query = "FROM Company WHERE name LIKE CONCAT(:NAME_LETTERS,'%')"),
+        @NamedQuery(
+                name = "Company.retrieveCompaniesContaining",
+                query = "FROM Company WHERE name LIKE CONCAT('%', :NAME_LETTERS,'%')"
+        )
+})
 
 @Entity
 @Table(name = "COMPANIES")
@@ -56,5 +60,10 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
