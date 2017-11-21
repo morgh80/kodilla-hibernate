@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
 public class ManyToManyTestSuite {
 
     @Autowired
-    private ManyToManyFacade facade;
+    private CompanyFacade facade;
 
     @Autowired
     private CompanyDao companyDao;
@@ -37,37 +36,55 @@ public class ManyToManyTestSuite {
     }
 
     @Test
-    public void shouldFindCompanyName() {
+    public void shouldFindCompanyName() throws SearchProcessingException {
         //Given
         Company softwareMachine = new Company("Software Machine");
         List<Company> foundCompanies = new ArrayList<>();
         companyDao.save(softwareMachine);
 
         //When
-        try {
-            foundCompanies = facade.findByCompanyName("oftw");
-        } catch (SearchProcessingException e) {
-            //do nothing
-        }
+        foundCompanies = facade.findByCompanyName("oftw");
+
         //Then
         Assert.assertEquals("Software Machine", foundCompanies.get(0).getName());
     }
 
     @Test
-    public void shouldFindEmployeeName() {
+    public void shouldFindEmployeeName() throws SearchProcessingException {
         //Given
         Employee johnSmith = new Employee("John", "Smith");
         List<Employee> foundEmployees = new ArrayList<>();
         employeeDao.save(johnSmith);
 
         //When
-        try {
-            foundEmployees = facade.findByEmployeeName("mi");
-        } catch (SearchProcessingException e) {
-            //do nothing
-        }
+        foundEmployees = facade.findByEmployeeName("mi");
+
         //Then
         Assert.assertEquals("Smith", foundEmployees.get(0).getLastname());
     }
 
+    @Test(expected = SearchProcessingException.class)
+    public void shouldThrowNoArgumentsException() throws SearchProcessingException {
+        //Given
+        Company softwareMachine = new Company("Software Machine");
+        companyDao.save(softwareMachine);
+
+        //When
+        facade.findByCompanyName("");
+    }
+
+    @Test
+    public void shouldReturnEmptyList() throws SearchProcessingException {
+        //Given
+        Employee johnSmith = new Employee("John", "Smith");
+        List<Employee> foundEmployees = new ArrayList<>();
+        employeeDao.save(johnSmith);
+        //When
+        foundEmployees = facade.findByEmployeeName(null);
+
+        //Then
+        Assert.assertEquals(0, foundEmployees.size());
+
+    }
 }
+
